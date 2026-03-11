@@ -72,7 +72,8 @@ class UkTransportCard extends LitElement {
     if (this.config.entity) {
       const attrs = this._attrs(this.config.entity);
       if (Array.isArray(attrs.buses)) {
-        items.push(...normalizeBusItems(attrs.buses, this.config.entity));
+        const defaultBusLocation = attrs.stop || attrs.stop_name || attrs.location || "";
+        items.push(...normalizeBusItems(attrs.buses, this.config.entity, defaultBusLocation));
       }
       if (Array.isArray(attrs.trains)) {
         items.push(...normalizeTrainItems(attrs.trains, this.config.entity));
@@ -82,7 +83,8 @@ class UkTransportCard extends LitElement {
     uniqueBusEntities.forEach((entityId) => {
       const attrs = this._attrs(entityId);
       if (Array.isArray(attrs.buses)) {
-        items.push(...normalizeBusItems(attrs.buses, entityId));
+        const defaultBusLocation = attrs.stop || attrs.stop_name || attrs.location || "";
+        items.push(...normalizeBusItems(attrs.buses, entityId, defaultBusLocation));
       }
     });
 

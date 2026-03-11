@@ -43,7 +43,7 @@ const trainDestination = (train) => {
   return first?.name || "Unknown";
 };
 
-export const normalizeBusItems = (items = [], sourceEntity = "") =>
+export const normalizeBusItems = (items = [], sourceEntity = "", defaultLocation = "") =>
   items.map((bus) => {
     const scheduled = bus.scheduled || "";
     const expected = bus.expected || scheduled;
@@ -66,7 +66,7 @@ export const normalizeBusItems = (items = [], sourceEntity = "") =>
       delay_minutes: delay,
       mins_away: minsAway,
       status: bus.status || (delay > 0 ? "Delayed" : "On Time"),
-      platform: bus.stand || bus.platform || "",
+      platform: bus.stand || bus.platform || bus.stop || bus.stop_name || defaultLocation || "",
       raw: bus,
     };
   });
