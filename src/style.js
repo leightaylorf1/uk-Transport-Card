@@ -65,17 +65,21 @@ export const styles = css`
     border-bottom: none;
   }
 
-  /* ── Status colour stripe (left border) ─────────────────── */
+  /* ── Status colour stripe (left border) + row highlight ─── */
   .service-row.good {
     border-left: 3px solid var(--success-color, #4caf50);
   }
 
   .service-row.warning {
     border-left: 3px solid var(--warning-color, #ff9800);
+    background: rgba(255, 152, 0, 0.07);
+    border-bottom-color: rgba(255, 152, 0, 0.3);
   }
 
   .service-row.perturbed {
     border-left: 3px solid var(--error-color, #f44336);
+    background: rgba(244, 67, 54, 0.07);
+    border-bottom-color: rgba(244, 67, 54, 0.3);
   }
 
   .service-icon-slot {

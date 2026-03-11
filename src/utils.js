@@ -65,7 +65,7 @@ export const normalizeBusItems = (items = [], sourceEntity = "") =>
       expected,
       delay_minutes: delay,
       mins_away: minsAway,
-      status: bus.status || "",
+      status: bus.status || (delay > 0 ? "Delayed" : "On Time"),
       platform: bus.stand || bus.platform || "",
       raw: bus,
     };
@@ -104,8 +104,8 @@ export const transportStatus = (item) => {
     return { cssClass: "warning", label: item.status || "Delayed" };
   }
 
-  if ((item.delay_minutes || 0) >= 10) return { cssClass: "warning", label: "Major Delay" };
-  if ((item.delay_minutes || 0) >= 5) return { cssClass: "warning", label: "Minor Delay" };
+  if ((item.delay_minutes || 0) >= 5) return { cssClass: "warning", label: "Major Delay" };
+  if ((item.delay_minutes || 0) > 0) return { cssClass: "warning", label: "Minor Delay" };
   return { cssClass: "good", label: item.status || "On Time" };
 };
 
