@@ -32,7 +32,13 @@ class UkTransportCard extends LitElement {
   }
 
   setConfig(config) {
-    if (!config.entity && !config.bus_entity && !config.train_entity) {
+    if (
+      !config.entity &&
+      !config.bus_entity &&
+      !config.bus_entity_primary &&
+      !config.bus_entity_secondary &&
+      !config.train_entity
+    ) {
       throw new Error("uk-transport-card: set entity, bus_entity, or train_entity");
     }
     this.config = {
@@ -56,6 +62,12 @@ class UkTransportCard extends LitElement {
 
   _collectTransportItems() {
     const items = [];
+    const busEntities = [
+      this.config.bus_entity,
+      this.config.bus_entity_primary,
+      this.config.bus_entity_secondary,
+    ].filter(Boolean);
+    const uniqueBusEntities = [...new Set(busEntities)];
 
     if (this.config.entity) {
       const attrs = this._attrs(this.config.entity);
@@ -67,12 +79,12 @@ class UkTransportCard extends LitElement {
       }
     }
 
-    if (this.config.bus_entity) {
-      const attrs = this._attrs(this.config.bus_entity);
+    uniqueBusEntities.forEach((entityId) => {
+      const attrs = this._attrs(entityId);
       if (Array.isArray(attrs.buses)) {
-        items.push(...normalizeBusItems(attrs.buses, this.config.bus_entity));
+        items.push(...normalizeBusItems(attrs.buses, entityId));
       }
-    }
+    });
 
     if (this.config.train_entity) {
       const attrs = this._attrs(this.config.train_entity);
@@ -86,7 +98,15 @@ class UkTransportCard extends LitElement {
   }
 
   _collectErrors() {
-    const entities = [this.config.entity, this.config.bus_entity, this.config.train_entity].filter(Boolean);
+    const entities = [
+      this.config.entity,
+      this.config.bus_entity,
+      this.config.bus_entity_primary,
+      this.config.bus_entity_secondary,
+      this.config.train_entity,
+    ]
+      .filter(Boolean)
+      .filter((value, index, arr) => arr.indexOf(value) === index);
     return entities
       .map((entityId) => ({ entityId, error: this._attrs(entityId).error }))
       .filter((e) => e.error);
@@ -98,7 +118,12 @@ class UkTransportCard extends LitElement {
       const attrs = this._attrs(this.config.entity);
       return attrs.stop || attrs.station || "Transport Departures";
     }
-    if (this.config.bus_entity && this.config.train_entity) return "Transport Departures";
+    if ((this.config.bus_entity || this.config.bus_entity_primary || this.config.bus_entity_secondary) && this.config.train_entity) {
+      return "Transport Departures";
+    }
+    if (this.config.bus_entity_primary || this.config.bus_entity_secondary) {
+      return "Bus Departures";
+    }
     if (this.config.bus_entity) return this._attrs(this.config.bus_entity).stop || "Bus Departures";
     if (this.config.train_entity) return this._attrs(this.config.train_entity).station || "Train Departures";
     return items.length ? "Transport Departures" : "No Services";
@@ -195,7 +220,8 @@ class UkTransportCard extends LitElement {
 
   static getStubConfig() {
     return {
-      bus_entity: "sensor.bus_schedule_stop_1",
+      bus_entity_primary: "sensor.bus_schedule_stop_1",
+      bus_entity_secondary: "sensor.bus_schedule_stop_2",
       train_entity: "sensor.train_schedule_ksn",
       limit: 10,
       merge_mode: "merged",
@@ -241,7 +267,25 @@ class UkTransportCardEditor extends LitElement {
       },
       {
         name: "bus_entity",
-        label: "Bus entity (optional)",
+        label: "Bus entity (optional, legacy single-source)",
+        selector: {
+          entity: {
+            filter: [{ domain: "sensor" }],
+          },
+        },
+      },
+      {
+        name: "bus_entity_primary",
+        label: "Bus entity primary direction (optional)",
+        selector: {
+          entity: {
+            filter: [{ domain: "sensor" }],
+          },
+        },
+      },
+      {
+        name: "bus_entity_secondary",
+        label: "Bus entity opposite direction (optional)",
         selector: {
           entity: {
             filter: [{ domain: "sensor" }],

@@ -51,8 +51,19 @@ Type: module
 
 ```yaml
 type: custom:uk-transport-card
-bus_entity: sensor.bus_schedule_stop_1
+bus_entity_primary: sensor.bus_schedule_stop_1
+bus_entity_secondary: sensor.bus_schedule_stop_2
 train_entity: sensor.train_schedule_ksn
+limit: 10
+merge_mode: merged
+```
+
+### One Bus Stop, Both Directions (No Train)
+
+```yaml
+type: custom:uk-transport-card
+bus_entity_primary: sensor.bus_schedule_stop_1
+bus_entity_secondary: sensor.bus_schedule_stop_2
 limit: 10
 merge_mode: merged
 ```
@@ -76,7 +87,9 @@ limit: 6
 ## Card Options
 
 - `entity` (optional): combined entity containing `buses[]` and/or `trains[]`
-- `bus_entity` (optional): bus source entity
+- `bus_entity` (optional): single bus source entity (legacy)
+- `bus_entity_primary` (optional): bus source for one direction
+- `bus_entity_secondary` (optional): bus source for opposite direction
 - `train_entity` (optional): train source entity
 - `title` (optional): override card title
 - `limit` (default `10`): max rows displayed
