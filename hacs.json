@@ -1,0 +1,7 @@
+{
+  "name": "UK Transport Card",
+  "content_in_root": false,
+  "filename": "uk-transport-card.js",
+  "homeassistant": "2024.1.0",
+  "render_readme": true
+}
