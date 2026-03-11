@@ -188,16 +188,18 @@ class UkTransportCard extends LitElement {
             : nothing}
         </span>
         <div class="service-line">${item.route}</div>
-        <div class="service-destination">${item.destination}</div>
+        <div class="service-destination">
+          <span class="service-destination-main">${item.destination}</span>
+          ${this.config.show_platform && item.platform
+            ? html`<span class="service-location">${item.platform}</span>`
+            : nothing}
+        </div>
         <div class="service-times">
           <span class="scheduled-time">${scheduled}</span>
           ${showExpected
             ? html`<span class="expected-time">→ ${expected}</span>`
             : nothing}
         </div>
-        ${this.config.show_platform && item.platform
-          ? html`<div class="platform">${item.platform}</div>`
-          : nothing}
         <div>
           ${isDue
             ? html`<span class="badge due">Due</span>`

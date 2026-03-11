@@ -53,7 +53,7 @@ export const styles = css`
   /* ── Service row ─────────────────────────────────────────── */
   .service-row {
     display: grid;
-    grid-template-columns: 22px 52px 1fr auto auto auto;
+    grid-template-columns: 22px 52px 1fr auto auto;
     align-items: center;
     gap: 6px;
     padding: 7px 16px;
@@ -108,8 +108,23 @@ export const styles = css`
   }
 
   .service-destination {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: 1px;
+  }
+
+  .service-destination-main {
     font-size: 0.9rem;
     color: var(--primary-text-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .service-location {
+    font-size: 0.72rem;
+    color: var(--secondary-text-color);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -120,16 +135,6 @@ export const styles = css`
     flex-direction: column;
     align-items: flex-end;
     gap: 1px;
-  }
-
-  .platform {
-    font-size: 0.74rem;
-    color: var(--secondary-text-color);
-    border: 1px solid var(--divider-color, rgba(0, 0, 0, 0.2));
-    border-radius: 4px;
-    padding: 1px 5px;
-    min-width: 28px;
-    text-align: center;
   }
 
   .scheduled-time {

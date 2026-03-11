@@ -52,7 +52,7 @@
   /* ── Service row ─────────────────────────────────────────── */
   .service-row {
     display: grid;
-    grid-template-columns: 22px 52px 1fr auto auto auto;
+    grid-template-columns: 22px 52px 1fr auto auto;
     align-items: center;
     gap: 6px;
     padding: 7px 16px;
@@ -107,8 +107,23 @@
   }
 
   .service-destination {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: 1px;
+  }
+
+  .service-destination-main {
     font-size: 0.9rem;
     color: var(--primary-text-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .service-location {
+    font-size: 0.72rem;
+    color: var(--secondary-text-color);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -119,16 +134,6 @@
     flex-direction: column;
     align-items: flex-end;
     gap: 1px;
-  }
-
-  .platform {
-    font-size: 0.74rem;
-    color: var(--secondary-text-color);
-    border: 1px solid var(--divider-color, rgba(0, 0, 0, 0.2));
-    border-radius: 4px;
-    padding: 1px 5px;
-    min-width: 28px;
-    text-align: center;
   }
 
   .scheduled-time {
@@ -207,17 +212,19 @@
           ${0}
         </span>
         <div class="service-line">${0}</div>
-        <div class="service-destination">${0}</div>
+        <div class="service-destination">
+          <span class="service-destination-main">${0}</span>
+          ${0}
+        </div>
         <div class="service-times">
           <span class="scheduled-time">${0}</span>
           ${0}
         </div>
-        ${0}
         <div>
           ${0}
         </div>
       </div>
-    `),i,this.config.show_icons?V(Pt||(Pt=Ht`<ha-icon class="service-icon" .icon=${0}></ha-icon>`),this._serviceIcon(t.type)):K,t.route,t.destination,e,a?V(Tt||(Tt=Ht`<span class="expected-time">→ ${0}</span>`),s):K,this.config.show_platform&&t.platform?V(Ut||(Ut=Ht`<div class="platform">${0}</div>`),t.platform):K,o?V(Nt||(Nt=Ht`<span class="badge due">Due</span>`)):null!==t.mins_away?V(kt||(kt=Ht`<span class="badge ${0}">${0}</span>`),i,null==(c=t.mins_away)?"":c<=1?"Due":`${c} min`):V(Mt||(Mt=Ht`<span class="badge ${0}">${0}</span>`),i,r));var c}getCardSize(){var t;const e=this._collectTransportItems();return Math.min(e.length,Number(null===(t=this.config)||void 0===t?void 0:t.limit)||e.length)+2}static getConfigElement(){return document.createElement("uk-transport-card-editor")}static getStubConfig(){return{bus_entity_primary:"sensor.bus_schedule_stop_1",bus_entity_secondary:"sensor.bus_schedule_stop_2",train_entity:"sensor.train_schedule_ksn",limit:10,merge_mode:"merged",show_icons:!0,show_platform:!0,hide_on_time_expected:!1,sort_by:"expected"}}}),customElements.define("uk-transport-card-editor",class extends ct{static get properties(){return{hass:{attribute:!1},config:{attribute:!1}}}static get styles(){return ft}setConfig(t){this.config=t}get _schema(){return[{name:"entity",label:"Combined transport entity (optional)",selector:{entity:{filter:[{domain:"sensor"}]}}},{name:"bus_entity",label:"Bus entity (optional, legacy single-source)",selector:{entity:{filter:[{domain:"sensor"}]}}},{name:"bus_entity_primary",label:"Bus entity primary direction (optional)",selector:{entity:{filter:[{domain:"sensor"}]}}},{name:"bus_entity_secondary",label:"Bus entity opposite direction (optional)",selector:{entity:{filter:[{domain:"sensor"}]}}},{name:"train_entity",label:"Train entity (optional)",selector:{entity:{filter:[{domain:"sensor"}]}}},{name:"title",label:"Card title",selector:{text:{}}},{name:"limit",label:"Max services to display",selector:{number:{min:1,max:20,step:1,mode:"box"}}},{name:"merge_mode",label:"Display mode",selector:{select:{mode:"dropdown",options:[{value:"merged",label:"Merged (time sorted)"},{value:"sectioned",label:"Sectioned (train/bus)"}]}}},{name:"sort_by",label:"Sort by",selector:{select:{mode:"dropdown",options:[{value:"expected",label:"Expected time"},{value:"scheduled",label:"Scheduled time"}]}}},{name:"show_icons",label:"Show transport icons",selector:{boolean:{}}},{name:"show_platform",label:"Show platform/stand",selector:{boolean:{}}},{name:"hide_on_time_expected",label:"Hide expected time when on time",selector:{boolean:{}}}]}render(){return this.hass&&this.config?V(Dt||(Dt=Ht`
+    `),i,this.config.show_icons?V(Pt||(Pt=Ht`<ha-icon class="service-icon" .icon=${0}></ha-icon>`),this._serviceIcon(t.type)):K,t.route,t.destination,this.config.show_platform&&t.platform?V(Tt||(Tt=Ht`<span class="service-location">${0}</span>`),t.platform):K,e,a?V(Ut||(Ut=Ht`<span class="expected-time">→ ${0}</span>`),s):K,o?V(Nt||(Nt=Ht`<span class="badge due">Due</span>`)):null!==t.mins_away?V(kt||(kt=Ht`<span class="badge ${0}">${0}</span>`),i,null==(c=t.mins_away)?"":c<=1?"Due":`${c} min`):V(Mt||(Mt=Ht`<span class="badge ${0}">${0}</span>`),i,r));var c}getCardSize(){var t;const e=this._collectTransportItems();return Math.min(e.length,Number(null===(t=this.config)||void 0===t?void 0:t.limit)||e.length)+2}static getConfigElement(){return document.createElement("uk-transport-card-editor")}static getStubConfig(){return{bus_entity_primary:"sensor.bus_schedule_stop_1",bus_entity_secondary:"sensor.bus_schedule_stop_2",train_entity:"sensor.train_schedule_ksn",limit:10,merge_mode:"merged",show_icons:!0,show_platform:!0,hide_on_time_expected:!1,sort_by:"expected"}}}),customElements.define("uk-transport-card-editor",class extends ct{static get properties(){return{hass:{attribute:!1},config:{attribute:!1}}}static get styles(){return ft}setConfig(t){this.config=t}get _schema(){return[{name:"entity",label:"Combined transport entity (optional)",selector:{entity:{filter:[{domain:"sensor"}]}}},{name:"bus_entity",label:"Bus entity (optional, legacy single-source)",selector:{entity:{filter:[{domain:"sensor"}]}}},{name:"bus_entity_primary",label:"Bus entity primary direction (optional)",selector:{entity:{filter:[{domain:"sensor"}]}}},{name:"bus_entity_secondary",label:"Bus entity opposite direction (optional)",selector:{entity:{filter:[{domain:"sensor"}]}}},{name:"train_entity",label:"Train entity (optional)",selector:{entity:{filter:[{domain:"sensor"}]}}},{name:"title",label:"Card title",selector:{text:{}}},{name:"limit",label:"Max services to display",selector:{number:{min:1,max:20,step:1,mode:"box"}}},{name:"merge_mode",label:"Display mode",selector:{select:{mode:"dropdown",options:[{value:"merged",label:"Merged (time sorted)"},{value:"sectioned",label:"Sectioned (train/bus)"}]}}},{name:"sort_by",label:"Sort by",selector:{select:{mode:"dropdown",options:[{value:"expected",label:"Expected time"},{value:"scheduled",label:"Scheduled time"}]}}},{name:"show_icons",label:"Show transport icons",selector:{boolean:{}}},{name:"show_platform",label:"Show platform/stand",selector:{boolean:{}}},{name:"hide_on_time_expected",label:"Hide expected time when on time",selector:{boolean:{}}}]}render(){return this.hass&&this.config?V(Dt||(Dt=Ht`
       <ha-form
         .hass=${0}
         .data=${0}
