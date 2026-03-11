@@ -9,7 +9,7 @@ import {
   sortTransportItems,
 } from "./utils";
 
-const CARD_VERSION = "0.1.0";
+const CARD_VERSION = "0.1.1";
 console.info(
   `%c  UK-TRANSPORT-CARD  %c v${CARD_VERSION} `,
   "background:#37474f;color:#fff;font-weight:700;padding:2px 4px;border-radius:3px 0 0 3px;",
@@ -172,6 +172,14 @@ class UkTransportCard extends LitElement {
     return type === "train" ? "mdi:train" : "mdi:bus";
   }
 
+  _locationLabel(item) {
+    if (!item?.platform) return "";
+    const value = String(item.platform).trim();
+    if (item.type !== "train") return value;
+    if (/^plat(?:form)?\b/i.test(value)) return value;
+    return `Platform ${value}`;
+  }
+
   _renderService(item) {
     const scheduled = parseToTime(item.scheduled);
     const expected = parseToTime(item.expected);
@@ -191,7 +199,7 @@ class UkTransportCard extends LitElement {
         <div class="service-destination">
           <span class="service-destination-main">${item.destination}</span>
           ${this.config.show_platform && item.platform
-            ? html`<span class="service-location">${item.platform}</span>`
+            ? html`<span class="service-location">${this._locationLabel(item)}</span>`
             : nothing}
         </div>
         <div class="service-times">
